@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Bienvenido al sistema de gestion de pacientes</h1>
+<p>Seleccione una opcion del menu para comenzar</p>
+<ul>
+    <li><a href="{% url 'core:paciente_list' %}">Pacientes</a></li>
+    <li><a href="{% url 'core:cuidador_list' %}">Cuidadores</a></li>
+    <li><a href="{% url 'core:medicamento_list' %}">Medicamentos</a></li>
+    <li><a href="{% url 'core:prescripcion_list' %}">Prescripciones</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Gestión Clinica</title>
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f3f8fb;
+      color: #1f3b4d;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007b83;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #e0f7fa;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #b2ebf2;
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    footer {
+      background-color: #007b83;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9rem;
+      margin-top: 30px;
+    }
+
+    .messages {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+    }
+
+    .messages li {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .messages li.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .messages li.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #b2ebf2;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Eva - Gestión Clínica</h1>
+    <nav>
+      <a href="{% url 'core:paciente_list' %}">Pacientes</a> |
+      <a href="{% url 'core:cuidador_list' %}">Cuidadores</a> |
+      <a href="{% url 'core:medicamento_list' %}">Medicamentos</a> |
+      <a href="{% url 'core:prescripcion_list' %}">Prescripciones</a> |
+      {% if user.is_authenticated %}
+        Hola, {{ user.username }} | <a href="{% url 'core:logout' %}">Salir</a>
+      {% else %}
+        <a href="{% url 'core:login' %}">Iniciar sesión</a>
+      {% endif %}
+    </nav>
+    <hr>
+  </header>
+
+  <main>
+    {% if messages %}
+      <ul class="messages">
+        {% for m in messages %}
+          <li class="{{ m.tags }}">{{ m }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer>
+    <small>Sistema de gestion médica</small>
+  </footer>
+</body>
+</html>

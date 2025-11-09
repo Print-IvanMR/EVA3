@@ -15,7 +15,7 @@ class CuidadorAdmin(admin.ModelAdmin):
 class MedicamentoAdmin(admin.ModelAdmin):
     list_display = ('codigo','nombre','stock','precio')
     search_fields = ('codigo','nombre')
-    list_filter = ('laboratorio',)
+
 
 @admin.register(Prescripcion)
 class PrescripcionAdmin(admin.ModelAdmin):
@@ -35,3 +35,4 @@ class RegistroAdmin(admin.ModelAdmin):
 @admin.register(PacienteCuidador)
 class PacienteCuidadorAdmin(admin.ModelAdmin):
     list_display = ('paciente','cuidador','encargado_actual')
+

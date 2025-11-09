@@ -5,11 +5,34 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Paciente, Cuidador, Medicamento, Prescripcion, HorarioAdministracion, RegistroToma, PacienteCuidador
 from .forms import PacienteForm, CuidadorForm, MedicamentoForm, PrescripcionForm, HorarioForm, RegistroForm, PacienteCuidadorForm
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
+class PacienteListView(LoginRequiredMixin, ListView):
+    model = Paciente
+    template_name = 'core/paciente_list.html'
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('core:inicio')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+def inicio(request):
+    return render(request, 'core/inicio.html')
+   
 # paciente CRUD
 class PacienteListView(LoginRequiredMixin, ListView):
     model = Paciente
-    template_name = 'pacientes/lista.html'
+    template_name = 'pacientes/list.html'
     context_object_name = 'pacientes'
 
 class PacienteDetailView(LoginRequiredMixin, DetailView):
@@ -31,7 +54,7 @@ class PacienteUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'pacientes/formulario.html'
     success_url = reverse_lazy('core:paciente_list')
     def form_valid(self, form):
-        messages.success(self.request, "Paciente actualizado correctamente.")
+        messages.success(self.request, "Paciente actualizado correctamente")
         return super().form_valid(form)
 
 class PacienteDeleteView(LoginRequiredMixin, DeleteView):
@@ -40,10 +63,9 @@ class PacienteDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('core:paciente_list')
 
 # cuidador CRUD 
-class CuidadorListView(LoginRequiredMixin, ListView):
+class CuidadorListView(ListView):
     model = Cuidador
-    template_name = 'cuidadores/lista.html'
-    context_object_name = 'cuidadores'
+    template_name = "core/cuidador_list.html"
 
 class CuidadorCreateView(LoginRequiredMixin, CreateView):
     model = Cuidador
@@ -65,7 +87,7 @@ class CuidadorDeleteView(LoginRequiredMixin, DeleteView):
 # medicamento CRUD 
 class MedicamentoListView(LoginRequiredMixin, ListView):
     model = Medicamento
-    template_name = 'medicamentos/lista.html'
+    template_name = 'medicamentos/list.html'
     context_object_name = 'medicamentos'
 
 class MedicamentoCreateView(LoginRequiredMixin, CreateView):
@@ -91,7 +113,7 @@ class MedicamentoDeleteView(LoginRequiredMixin, DeleteView):
 # prescripcion CRUD 
 class PrescripcionListView(LoginRequiredMixin, ListView):
     model = Prescripcion
-    template_name = 'prescripciones/lista.html'
+    template_name = 'prescripciones/list.html'
     context_object_name = 'prescripciones'
 
 class PrescripcionCreateView(LoginRequiredMixin, CreateView):
@@ -114,7 +136,7 @@ class PrescripcionDeleteView(LoginRequiredMixin, DeleteView):
 # horarios 
 class HorarioListView(LoginRequiredMixin, ListView):
     model = HorarioAdministracion
-    template_name = 'horarios/lista.html'
+    template_name = 'horarios/list.html'
     context_object_name = 'horarios'
 
 class HorarioCreateView(LoginRequiredMixin, CreateView):
@@ -131,7 +153,7 @@ class HorarioDeleteView(LoginRequiredMixin, DeleteView):
 #  registros de toma 
 class RegistroListView(LoginRequiredMixin, ListView):
     model = RegistroToma
-    template_name = 'registros/lista.html'
+    template_name = 'registros/list.html'
     context_object_name = 'registros'
 
 class RegistroCreateView(LoginRequiredMixin, CreateView):
@@ -148,7 +170,7 @@ class RegistroDeleteView(LoginRequiredMixin, DeleteView):
 # paciente - cuidador
 class PacienteCuidadorListView(LoginRequiredMixin, ListView):
     model = PacienteCuidador
-    template_name = 'pacientecuidadores/lista.html'
+    template_name = 'pacientecuidadores/list.html'
     context_object_name = 'relaciones'
 
 class PacienteCuidadorCreateView(LoginRequiredMixin, CreateView):

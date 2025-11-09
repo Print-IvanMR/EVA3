@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Listado de Prescripciones</h2>
+  <a href="{% url 'core:prescripcion_create' %}" class="btn">Agregar Prescripción</a>
+
+  {% if object_list %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Paciente</th>
+        <th>Medicamento</th>
+        <th>Dosis</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for prescripcion in object_list %}
+      <tr>
+        <td>{{ prescripcion.paciente.nombre }}</td>
+        <td>{{ prescripcion.medicamento.nombre }}</td>
+        <td>{{ prescripcion.dosis }}</td>
+        <td>{{ prescripcion.fecha }}</td>
+        <td>
+          <a href="{% url 'core:prescripcion_update' prescripcion.pk %}" class="btn-edit">Editar</a>
+          <a href="{% url 'core:prescripcion_delete' prescripcion.pk %}" class="btn-delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No hay prescripciones registradas</p>
+  {% endif %}
+</div>
+{% endblock %}

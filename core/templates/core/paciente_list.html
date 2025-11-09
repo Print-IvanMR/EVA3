@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Listado de Pacientes</h2>
+  <a href="{% url 'core:paciente_create' %}" class="btn">Agregar Paciente</a>
+
+  {% if object_list %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Dirección</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for paciente in object_list %}
+      <tr>
+        <td>{{ paciente.nombre }}</td>
+        <td>{{ paciente.edad }}</td>
+        <td>{{ paciente.direccion }}</td>
+        <td>
+          <a href="{% url 'core:paciente_update' paciente.pk %}" class="btn-edit">Editar</a>
+          <a href="{% url 'core:paciente_delete' paciente.pk %}" class="btn-delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No hay pacientes registrados</p>
+  {% endif %}
+</div>
+{% endblock %}

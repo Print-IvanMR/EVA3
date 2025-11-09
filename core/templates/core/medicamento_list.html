@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Listado de Medicamentos</h2>
+  <a href="{% url 'core:medicamento_create' %}" class="btn">Agregar Medicamento</a>
+
+  {% if object_list %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Stock</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for medicamento in object_list %}
+      <tr>
+        <td>{{ medicamento.nombre }}</td>
+        <td>{{ medicamento.descripcion }}</td>
+        <td>{{ medicamento.stock }}</td>
+        <td>${{ medicamento.precio }}</td>
+        <td>
+          <a href="{% url 'core:medicamento_update' medicamento.pk %}" class="btn-edit">Editar</a>
+          <a href="{% url 'core:medicamento_delete' medicamento.pk %}" class="btn-delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No hay medicamentos registrados</p>
+  {% endif %}
+</div>
+{% endblock %}
